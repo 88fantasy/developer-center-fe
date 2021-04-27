@@ -1,0 +1,300 @@
+@import '../../variable.less';
+@import '../../global.less';
+
+.headerMenuContainer{
+  color: white;
+  user-select:none;
+  .menuListWrapper{
+    position: relative;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+    .menuIcon{
+      cursor: pointer;
+      span{
+        height: 65px;
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 10px 0 10px;
+        color: #AFC3D5;
+      }
+      .iconAdd, .iconDefault, .icon {
+        width: 24px;
+        height: 24px;
+        margin-right: 8px;
+        background: no-repeat center center / contain;
+      }
+      .iconAdd{
+        margin-left: 10px;
+        height: 64px;
+        background-image: url('@{fileUrl}/assets/menuAdd.png');
+      }
+      .iconDefault{
+        background-image: url('@{fileUrl}/assets/menu-icon/menu.svg')
+      }
+      .icon{
+        background: no-repeat url('@{fileUrl}/assets/home.png') center center / contain;
+      };
+    }
+  }
+}
+
+.menuPopup{
+  width: 1000px;
+  padding: 20px 40px 0px;
+  color: black;
+  .menuHeader{
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    .count{
+      font-weight: 500;
+    }
+    .buttonWrapper{
+      margin-left: 20px;
+      span{
+        display: inline-block;
+        line-height: 20px;
+        font-size: 14px;
+        padding: 3px 15px;
+        border-radius: 5px;
+        border: 1px solid @dashboard-title-gray;
+        color: @dashboard-title-gray;
+        margin-right: 10px;
+        cursor: pointer;
+        &.save{
+          border: 0;
+          background-color: @headerMenu-blue;
+          color: white;
+        }
+      }
+    }
+  }
+  .menuWrapper{
+    display: flex;
+    flex-wrap: wrap;
+    .menuItemWrapper{
+      margin-right: 80px;
+      margin-bottom: 50px;
+      width: 200px;
+      .menuItemHeader{
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid #CCCCCC;
+        margin-bottom: 10px;
+        :global{
+          .anticon{
+            font-size: 27px;
+            margin-right: 10px;
+            color: #4E83C6;
+          }
+        }
+        .menuItemHeaderName{
+          font-weight: bold;
+          font-size: 20px;
+          line-height: 40px;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+        }
+        .itemIcon{
+          width: 26px;
+          height: 26px;
+          margin-right: 13px;
+        }
+        .menuItemHeaderIcon{
+          width: 27px;
+          height: 27px;
+          margin-right: 13px;
+        }
+      }
+      .menuItemContent{
+        display: flex;
+        flex-direction: column;
+        cursor: pointer;
+        a{
+          color: black;
+        }
+        span{
+          font-weight: 500;
+          white-space:nowrap;
+          overflow:hidden;
+          text-overflow:ellipsis;
+          font-size: 16px;
+          line-height: 28px;
+          &:hover{
+            color: @login-blue;
+          }
+        }
+        .selected{
+          color: @login-blue;
+        }
+      }
+
+    }
+    .menuCheckboxContent{
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+      font-size: 14px;
+      :global{
+        .ant-checkbox-wrapper{
+          display: flex;
+          flex-direction: row-reverse;
+          justify-content: space-between;
+          align-items: center;
+          cursor: pointer;
+          text-align: right;
+          &+ .ant-checkbox-wrapper{
+            margin: 0;
+          }
+          .ant-checkbox{
+            &+span{
+              white-space:nowrap;
+              overflow:hidden;
+              text-overflow:ellipsis;
+              font-size: 18px;
+              font-weight: 500;
+            }
+            .ant-checkbox-inner{
+              border: 1px solid @login-dark-blue;
+            }
+          }
+          .ant-checkbox-checked{
+            .ant-checkbox-inner{
+              border: 0;
+              background-color: @login-light-blue;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.popupWrapper{
+  :global{
+    .ant-popover-inner{
+      border-radius: 10px;
+      box-shadow: 0px 1px 30px 0px rgba(4, 0, 0, 0.09);
+    }
+    .ant-popover-inner-content{
+      padding: 0;
+    }
+    .ant-popover-arrow{
+      top: 2px !important;
+      border-width: 12px;
+      border-top-left-radius: 5px;
+    }
+  }
+}
+
+@media screen and (max-width: 767px){
+  .headerMenuContainer{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 1920px){
+  .headerMenuContainer{
+    .menuListWrapper{
+      height: 40px;
+      .menuIcon{
+        font-size: 14px;
+        span{
+          height: 40px;
+        }
+        .iconAdd, .iconDefault, .icon {
+           width: 17px;
+           height: 17px;
+        }
+        .iconAdd{
+          height: 40px;
+        }
+      }
+    }
+  }
+
+  .menuPopup{
+    width: 720px;
+    padding: 10px 25px 0;
+    .menuWrapper{
+      .menuItemWrapper{
+        width: 140px;
+        margin-right: 57px;
+        margin-bottom: 37px;
+        .menuItemHeader{
+          :global{
+            .anticon{
+              font-size: 19px;
+            }
+          }
+          .menuItemHeaderName{
+            font-size: 16px;
+          }
+          .itemIcon{
+            width: 19px;
+            height: 19px;
+            margin-right: 10px;
+          }
+        }
+        .menuItemContent{
+          span{
+            font-size: 12px;
+          }
+        }
+      }
+      .menuCheckboxContent{
+        :global{
+          .ant-checkbox-wrapper{
+            .ant-checkbox{
+              &+ span{
+                font-size: 12px;
+                line-height: 30px;
+              }
+            }
+          }
+        }
+      }
+    }
+    .menuHeader{
+      .count{
+        font-size: 16px;
+      }
+      .buttonWrapper{
+        span{
+          font-size: 12px;
+          padding: 3px 12px;
+        }
+      }
+    }
+  }
+  .popupWrapper{
+    :global{
+      .ant-popover-arrow{
+        top: 2px !important;
+        border-width: 9px;
+        border-top-left-radius: 5px;
+      }
+      .ant-checkbox-inner{
+        width: 14px;
+        height: 14px;
+      }
+    }
+  }
+}
+
+.selectedMenu{
+  background-color:#1890ff!important;
+  color: #ffffff!important;
+}
+
+.hoverMenu {
+  &:hover{
+    background-color:#1890ff!important;
+    color: #ffffff
+  }
+}
