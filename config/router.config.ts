@@ -139,10 +139,29 @@ export default [
                 path: '/rule',
                 routes: [
                   {
-                    name: '规则包',
+                    name: '规则集',
                     icon: 'ChromeOutlined',
                     path: '/rule/package',
                     component: './rule/package',
+                  },
+                  {
+                    name: '规则定义',
+                    icon: 'ProfileOutlined',
+                    path: '/rule/ruler',
+                    component: './rule/ruler',
+                  },
+                  {
+                    name: '规则集编辑',
+                    icon: 'ChromeOutlined',
+                    path: '/rule/package/edit/:code',
+                    component: './rule/package/edit',
+                    hideInMenu: true,
+                  },
+                  {
+                    name: '执行记录',
+                    icon: 'ChromeOutlined',
+                    path: '/rule/instance',
+                    component: './rule/instance',
                   },
                 ],
               },

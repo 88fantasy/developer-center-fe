@@ -1,6 +1,4 @@
 import request from '@/utils/request';
-// import request from 'umi-request';
-import type { GetParams,  } from '@/typings';
 import type { RulePackage, RulePackageList, Rule } from './data';
 import type { ApiResponsePage, QueryPageConditionRequest } from 'ant-design-exframework';
 
@@ -18,19 +16,11 @@ export async function query(params?: QueryPageConditionRequest) {
   });
 }
 
-export async function listRules(params?: QueryPageConditionRequest) {
-  return request.post<ApiResponsePage<Rule>>('/rule/listRules', {
+export async function queryRules(params?: QueryPageConditionRequest) {
+  return request.post<ApiResponsePage<Rule>>('/rule/queryRules', {
     data: {
       ...params,
     },
   });
 }
 
-
-export async function post(params: RulePackage) {
-  return request.post('/rule/save', {
-    data: {
-      ...params,
-    },
-  });
-}

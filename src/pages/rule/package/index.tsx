@@ -1,44 +1,40 @@
 import React, { useState, useRef } from 'react';
-import { Button, Form, Space, Tag, Drawer, Avatar, List, Card, Paragraph, Typography, Tooltip } from 'antd';
+import {
+  Button,
+  List,
+  Card,
+  Typography,
+  Tooltip,
+} from 'antd';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import type { ActionType } from '@ant-design/pro-table';
 import ProList from '@ant-design/pro-list';
 import numeral from 'numeral';
-import ProForm, { ProFormText, ProFormRadio, ProFormDependency } from '@ant-design/pro-form';
-
-import type { Rule, RulePackageList, RulePackage } from './data';
+import { history, } from 'umi';
+import type { RulePackageList } from '../data';
 import type { FilterCondition } from 'ant-design-exframework';
 import { QueryParamBar } from 'ant-design-exframework';
-import { EditOutlined, PlusCircleOutlined, PlusOutlined, ShareAltOutlined } from '@ant-design/icons';
-import { query } from './service';
+import {
+  EditOutlined,
+  PlusCircleOutlined,
+  ShareAltOutlined,
+} from '@ant-design/icons';
+import { query } from '../service';
 import styles from './style.less';
 
-
-const Index: React.FC<{}> = () => {
-  const [form] = Form.useForm();
-  const [rules, setRules] = useState<Rule[]>([]);
-  const [drawerVisiable, setDrawerVisiable] = useState<boolean>(false);
-  const dependencyActionRef = useRef<ActionType>();
+const Index: React.FC = () => {
   const actionRef = useRef<ActionType>();
   const [searchParams, setSearchParams] = useState<FilterCondition[]>([]);
 
-  const onDrawerOpen = () => {
-    setDrawerVisiable(true);
-  };
-
-  const onDrawerClose = () => {
-    setDrawerVisiable(false);
-  };
-
   const formatWan = (val: number) => {
     const v = val * 1;
-    if (!v || Number.isNaN(v)) return '';
-  
+    if (Number.isNaN(v)) return '';
+
     let result: React.ReactNode = val;
-    if (val > 10000) {
+    if (val > 1000) {
       result = (
         <span>
-          {Math.floor(val / 10000)}
+          {Math.floor(val / 1000)}
           <span
             style={{
               position: 'relative',
@@ -48,13 +44,20 @@ const Index: React.FC<{}> = () => {
               marginLeft: 2,
             }}
           >
-            万
+            千
           </span>
         </span>
       );
     }
+    else {
+      result = (
+        <span>
+          {val}
+        </span>
+      );
+    }
     return result;
-  }
+  };
 
   return (
     <PageHeaderWrapper title={false}>
@@ -62,7 +65,9 @@ const Index: React.FC<{}> = () => {
         <ProList<RulePackageList>
           toolBarRender={() => {
             return [
-              <Button type="primary">
+              <Button type="primary" onClick={() => {
+                history.push('/rule/package/edit/new');
+              }}>
                 新增
                 <PlusCircleOutlined
                   style={{
@@ -73,50 +78,43 @@ const Index: React.FC<{}> = () => {
             ];
           }}
           renderItem={(item) => {
-            if (item && item.code) {
-              return (
-                <List.Item key={item.code}>
-                  <Card
-                    hoverable
-                    className={styles.card}
-                    bodyStyle={{ paddingBottom: 20 }}
-                    actions={[
-                      <Tooltip key="edit" title="编辑">
-                        <EditOutlined />
-                      </Tooltip>,
-                      <Tooltip title="分享" key="share">
-                        <ShareAltOutlined />
-                      </Tooltip>,
-                    ]}
-                  >
-                    <Card.Meta
-                      // avatar={<img alt="" className={styles.cardAvatar} src={item.avatar} />}
-                      title={<a>{item.name}</a>}
-                      description={
-                        <Typography.Paragraph className={styles.item} ellipsis={{ rows: 3 }}>
-                          {item.description}
-                        </Typography.Paragraph>
-                      }
-                    />
-                    <div className={styles.cardInfo}>
-                      <div>
-                        <p>累计运算次数</p>
-                        <p>{formatWan(item.history)}</p>
-                      </div>
-                      <div>
-                        <p>今天运算</p>
-                        <p>{numeral(item.today).format('0,0')}</p>
-                      </div>
-                    </div>
-                  </Card>
-                </List.Item>
-              );
-            }
             return (
-              <List.Item>
-                <Button type="dashed" className={styles.newButton}>
-                  <PlusOutlined /> 新增产品
-                </Button>
+              <List.Item key={item.code}>
+                <Card
+                  hoverable
+                  className={styles.card}
+                  bodyStyle={{ paddingBottom: 20 }}
+                  actions={[
+                    <Tooltip key="edit" title="编辑">
+                      <EditOutlined onClick={() => {
+                        history.push(`/rule/package/edit/${item.code}`);
+                      }} />
+                    </Tooltip>,
+                    <Tooltip title="分享" key="share">
+                      <ShareAltOutlined />
+                    </Tooltip>,
+                  ]}
+                >
+                  <Card.Meta
+                    // avatar={<img alt="" className={styles.cardAvatar} src={item.avatar} />}
+                    title={<a>{item.name}</a>}
+                    description={
+                      <Typography.Paragraph className={styles.item} ellipsis={{ rows: 3 }}>
+                        {item.description}
+                      </Typography.Paragraph>
+                    }
+                  />
+                  <div className={styles.cardInfo}>
+                    <div>
+                      <p>累计运算次数</p>
+                      <p>{formatWan(item.history || 0)}</p>
+                    </div>
+                    <div>
+                      <p>今天运算</p>
+                      <p>{numeral(item.today || 0).format('0,0')}</p>
+                    </div>
+                  </div>
+                </Card>
               </List.Item>
             );
           }}
@@ -175,9 +173,10 @@ const Index: React.FC<{}> = () => {
           }}
         />
       </div>
+
+      
     </PageHeaderWrapper>
   );
 };
 
 export default Index;
-

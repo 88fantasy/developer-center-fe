@@ -1,25 +1,25 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import type { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import { parse } from 'url';
 import mockjs from 'mockjs';
-import type { RulePackageList,  } from '../data.d';
-import type { ApiResponsePage, QueryPageConditionRequest } from 'ant-design-exframework';
+import { DictionaryItem, TableListParams } from '@/pages/dictionary/data';
 
 
 const genData = () => {
-  const data: RulePackageList = mockjs.mock({
-    code : '@id',
-    name: '@word',
-    description: '@cparagraph(1)',
-    ruleCount : '@integer(0,100)',
-    history: '@integer(0,1000000)',
-    today: 0,
+  const data: DictionaryItem = mockjs.mock({
+    key: '@id',
+    code : '@string("lower", 5)',
+    keyword: '@string("lower", 5)',
+    id: '@integer(0, 20)',
+    name: '@title',
+    desc: '@cparagraph(1)',
+    dependencies : [],
   });
   return data;
 }
 // mock tableListDataSource
 const genList = (current: number, pageSize: number) => {
-  const tableListDataSource: RulePackageList[] = [];
+  const tableListDataSource: DictionaryItem[] = [];
 
   for (let i = 0; i < pageSize; i += 1) {
     const data = genData();
@@ -64,7 +64,7 @@ function getDictionary(req: Request, res: Response, u: string) {
   return res.json(result);
 }
 
-function remove(req: Request, res: Response, u: string, b: Request) {
+function removeDict(req: Request, res: Response, u: string, b: Request) {
   let realUrl = u;
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
     realUrl = req.url;
@@ -85,7 +85,7 @@ function remove(req: Request, res: Response, u: string, b: Request) {
   res.json(result);
 }
 
-function post(req: Request, res: Response, u: string, b: Request) {
+function postDict(req: Request, res: Response, u: string, b: Request) {
   let realUrl = u;
   if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
     realUrl = req.url;
@@ -130,44 +130,8 @@ function post(req: Request, res: Response, u: string, b: Request) {
   res.json(result);
 }
 
-function query(req: Request, res: Response, u: string): ApiResponsePage<RulePackageList> {
-  let realUrl = u;
-  if (!realUrl || Object.prototype.toString.call(realUrl) !== '[object String]') {
-    realUrl = req.url;
-  }
-  const { current = 1, pageSize = 10 } = req.query;
-  const params = (parse(realUrl, true).query as unknown) as QueryPageConditionRequest;
-
-  let dataSource = [...tableListDataSource].slice((current - 1) * pageSize, current * pageSize);
-  if (params.sorter) {
-    const s = params.sorter.split('_');
-    dataSource = dataSource.sort((prev, next) => {
-      if (s[1] === 'descend') {
-        return next[s[0]] - prev[s[0]];
-      }
-      return prev[s[0]] - next[s[0]];
-    });
-  }
-
-  const result: ApiResponsePage<RulePackageList> = {
-    code: 200,
-    status: true,
-    data: {
-      list: dataSource,
-      pager: {
-        size: params.page?.pageSize ? tableListDataSource.length / params.page?.pageSize : 0,
-        total: tableListDataSource.length,
-        current: parseInt(`${params.page?.current}`, 10) || 1,
-        pageSize: params.page?.pageSize,
-      },
-    },
-  };
-
-  return res.json(result);
-}
-
 export default {
-  'GET /rule/get': getDictionary,
-  'POST /rule/query': query,
-  'POST /rule/save': post,
+  'GET /api/dict/get': getDictionary,
+  'DELETE /api/dict/remove': removeDict,
+  'POST /api/dict/oper': postDict,
 };
