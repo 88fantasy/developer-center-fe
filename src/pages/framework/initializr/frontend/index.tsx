@@ -62,7 +62,7 @@ const Index: React.FC<{}> = () => {
             columns={[
               {
                 title: 
-                  <ResizableBox ox width={200} 
+                  <ResizableBox width={200} 
                     >
                     <span>Contents</span>
                   </ResizableBox>,

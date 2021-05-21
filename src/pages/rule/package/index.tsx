@@ -17,7 +17,7 @@ import { QueryParamBar } from 'ant-design-exframework';
 import {
   EditOutlined,
   PlusCircleOutlined,
-  ShareAltOutlined,
+  ProfileOutlined,
 } from '@ant-design/icons';
 import { query } from '../service';
 import styles from './style.less';
@@ -90,8 +90,15 @@ const Index: React.FC = () => {
                         history.push(`/rule/package/edit/${item.code}`);
                       }} />
                     </Tooltip>,
-                    <Tooltip title="分享" key="share">
-                      <ShareAltOutlined />
+                    <Tooltip title="执行记录" key="query">
+                      <ProfileOutlined onClick={() => {
+                        history.push({
+                          pathname: '/rule/instance',
+                          query: {
+                            package: item.code,
+                          }, 
+                        });
+                      }} />
                     </Tooltip>,
                   ]}
                 >
@@ -148,7 +155,7 @@ const Index: React.FC = () => {
           grid={{ gutter: 8, column: 4 }}
           showActions="hover"
           locale={{
-            emptyText: '没有任何规则包',
+            emptyText: '没有任何规则集',
           }}
           request={async (params = {}) => {
             let list: RulePackageList[] = [];
@@ -173,7 +180,7 @@ const Index: React.FC = () => {
           }}
         />
       </div>
-
+      
       
     </PageHeaderWrapper>
   );

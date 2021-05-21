@@ -109,7 +109,7 @@ export default [
               // },
               {
                 name: '开发框架',
-                icon: 'CodeOutlined',
+                icon: 'CodeSandboxOutlined',
                 path: '/framework',
                 routes: [
                   {
@@ -167,7 +167,7 @@ export default [
               },
               {
                 name: '微信平台',
-                icon: 'CodeOutlined',
+                icon: 'WechatOutlined',
                 path: '/wechat',
                 routes: [
                   {
@@ -180,7 +180,7 @@ export default [
               },
               {
                 name: '消息平台',
-                icon: 'CodeOutlined',
+                icon: 'MessageOutlined',
                 path: '/message',
                 routes: [
                   {

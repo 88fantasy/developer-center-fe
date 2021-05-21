@@ -5,7 +5,7 @@ import { PageContainer } from '@ant-design/pro-layout';
 import type { FilterCondition } from 'ant-design-exframework';
 import { QueryParamBar } from 'ant-design-exframework';
 import { queryRules } from '../service';
-import { Badge, Collapse, Drawer, Input, List, Space, Tag } from 'antd';
+import { Badge, Collapse, Drawer, List, Space, Tag } from 'antd';
 import type { Dispatch } from 'umi';
 import { connect } from 'umi';
 import type { ConfigStateType } from '@/models/config';
@@ -183,6 +183,7 @@ const Table: React.FC<{ config: ConfigStateType }> = (props) => {
               {
                 title: '代码',
                 dataIndex: 'code',
+                editable: false,
                 fieldProps: {
                   style : {
                     width: '300px'

@@ -17,12 +17,13 @@ export type Rule = {
   description: string;
   type: 'CODE' | 'SPEL' | 'MVEL' | 'GROUP';
   expression: string;
-  action: string;
-  priority?: number;
+  action: string[];
+  priority: number;
   input?: string;
   output?: string;
   tags?: string;
 };
+
 
 export type RulePackage = Package & {
   rules?: Rule[];
