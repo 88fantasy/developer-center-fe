@@ -5,4 +5,5 @@ export type MiniProgram = {
   appSecret: string;
   payId: string;
   paySecret: string;
+  miniprogram: boolean;
 };

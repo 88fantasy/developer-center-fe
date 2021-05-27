@@ -1,5 +1,5 @@
 import request from '@/utils/request';
-import type { ApiResponsePage,  QueryPageConditionRequest, } from 'ant-design-exframework';
+import type { ApiResponseData, ApiResponsePage,  QueryPageConditionRequest, } from 'ant-design-exframework';
 import type { MiniProgram } from './data';
 
 export async function query(params?: QueryPageConditionRequest) {
@@ -17,9 +17,15 @@ export async function refresh() {
 }
 
 export async function post(params: MiniProgram) {
-  return request.post('/wechat-app/save', {
+  return request.post<ApiResponseData<boolean>>('/wechat-app/save', {
     data: {
       ...params,
     },
+  });
+}
+
+export async function get(appId: string) {
+  return request.get<ApiResponseData<MiniProgram>>(`/wechat-app/get/${appId}`, {
+
   });
 }

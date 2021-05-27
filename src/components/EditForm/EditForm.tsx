@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Drawer, Form, Input, Select } from 'antd';
 
-import type { RuleProColumns } from '@/typings.d';
+import type { RuleProColumns } from '@//typings.d';
 
 interface DictFormProps {
   width?: number | string;

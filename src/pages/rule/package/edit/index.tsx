@@ -130,7 +130,15 @@ const Index: React.FC = () => {
 
   return (
     <PageHeaderWrapper
+      onBack={() => {
+        history.goBack();
+      }}
       extra={[
+        <Button
+          key="history"
+        >
+          历史记录
+        </Button>,
         <Button
           key="gen"
           type="primary"

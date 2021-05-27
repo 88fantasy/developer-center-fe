@@ -1,121 +1,28 @@
 import React, { useState, useRef } from 'react';
-import { Button, Drawer, Dropdown, Menu, message } from 'antd';
-import type { ActionType, ProColumns } from '@ant-design/pro-table';
-import ProTable from '@ant-design/pro-table';
-import type { SorterResult } from 'antd/es/table/interface';
+import { history, } from 'umi';
+import { Button, Card, Dropdown, List, Menu, message, notification, Tooltip } from 'antd';
+import type { ActionType,  } from '@ant-design/pro-table';
 import type { FilterCondition } from 'ant-design-exframework';
 import { QueryParamBar } from 'ant-design-exframework';
 import type { MiniProgram } from './data';
 import { query, refresh, post } from './service';
-import { DownOutlined } from '@ant-design/icons';
-import EditForm from '@/components/EditForm/EditForm';
+import ProForm, { DrawerForm, ProFormSwitch, ProFormText } from '@ant-design/pro-form';
+import styles from './style.less';
+import ProList from '@ant-design/pro-list';
+import Avatar from 'antd/lib/avatar/avatar';
+import { CopyOutlined, DownOutlined, EllipsisOutlined, PieChartOutlined, PlusCircleOutlined, SyncOutlined } from '@ant-design/icons';
 
 const Index: React.FC = () => {
-  const [sorter, setSorter] = useState<string>('');
   const [searchParams, setSearchParams] = useState<FilterCondition[]>([]);
   const actionRef = useRef<ActionType>();
   const [drawVisible, setDrawVisible] = useState<boolean>(false);
-  const [formValues, setFormValues] = useState({});
-
-  const columns: ProColumns[] = [
-    {
-      title: '应用Id',
-      dataIndex: 'appId',
-      width: 100,
-    },
-    {
-      title: '应用名称',
-      dataIndex: 'name',
-      width: 120,
-    },
-    {
-      title: '应用密钥',
-      dataIndex: 'appSecret',
-      valueType: 'password',
-      copyable: true,
-    },
-    {
-      title: '商户号',
-      dataIndex: 'payId',
-      width: 150,
-    },
-    {
-      title: '商户密钥',
-      dataIndex: 'paySecret',
-      valueType: 'password',
-      copyable: true,
-    },
-  ];
-
-
-
-  const doShow = () => {
-    setDrawVisible(true);
-  };
-
-  const doClose = () => {
-    setDrawVisible(false);
-  }
-
-  /**
-   * 新增或更新字典
-   * @param fields
-   */
-  const handleOper = async (fields: MiniProgram) => {
-    const hide = message.loading('正在操作');
-    try {
-      await post({
-        ...fields,
-      });
-      hide();
-
-      message.success('操作成功');
-      doClose();
-      actionRef.current?.reload();
-      return true;
-    } catch (error) {
-      hide();
-      message.error('操作失败请重试！');
-      return false;
-    }
-  };
+  // const [formValues, setFormValues] = useState({});
 
   return (
-    <>
-      <ProTable<MiniProgram>
-        actionRef={actionRef}
-        rowKey="appId"
-        onChange={(_, _filter, _sorter) => {
-          const sorterResult = _sorter as SorterResult<MiniProgram>;
-          if (sorterResult.field) {
-            setSorter(`${sorterResult.field}_${sorterResult.order}`);
-          }
-        }}
-        params={{
-          sorter,
-        }}
-        toolbar={{
-          search: (
-            <QueryParamBar
-              params={[
-                {
-                  key: 'name',
-                  title: '应用名称',
-                  type: 'Input',
-                },
-                {
-                  key: 'appId',
-                  title: '应用Id',
-                  type: 'Input',
-                },
-              ]}
-              onChange={(conditions) => {
-                setSearchParams(conditions);
-                actionRef.current?.reload();
-              }}
-            />
-          ),
-          actions: [
+    <div className={styles.cardList}>
+      <ProList<MiniProgram>
+        toolBarRender={() => {
+          return [
             <Dropdown
               key="overlay"
               overlay={
@@ -132,21 +39,123 @@ const Index: React.FC = () => {
                         });
                     }}
                   >
-                    刷新缓存
+                    <SyncOutlined />刷新缓存
                   </Menu.Item>
                 </Menu>
               }
             >
-              <Button type="primary" onClick={doShow}>
+              <Button type="primary" onClick={() => {
+                setDrawVisible(true);
+              }}>
+                <PlusCircleOutlined />
                 新增
                 <DownOutlined
                   style={{
-                    marginLeft: 8,
+                    marginLeft: 10,
                   }}
                 />
               </Button>
             </Dropdown>,
-          ],
+          ];
+        }}
+        renderItem={(item) => {
+          return (
+            <List.Item key={item.appId}>
+              <Card
+                hoverable
+                className={styles.card}
+                bodyStyle={{ paddingBottom: 20 }}
+                actions={[
+                  item.miniprogram && <Tooltip key="chart" title="统计报表">
+                    <PieChartOutlined 
+                      onClick={() => {
+                        history.push(`/wechat/analysis/${item.appId}/visit`);
+                      }}
+                    />
+                  </Tooltip>,
+                  // <Tooltip title="执行记录" key="query">
+                  //   <ProfileOutlined
+                  //     onClick={() => {
+                  //       history.push({
+                  //         pathname: '/rule/instance',
+                  //         query: {
+                  //           package: item.code,
+                  //         },
+                  //       });
+                  //     }}
+                  //   />
+                  // </Tooltip>,
+                  <Dropdown
+                    key="ellipsis"
+                    overlay={
+                      <Menu>
+                        <Menu.Item>
+                          <CopyOutlined />复制应用密钥
+                        </Menu.Item>
+                        {
+                          item.paySecret && <Menu.Item>
+                          <CopyOutlined />复制商户密钥
+                        </Menu.Item>
+                        }
+                      </Menu>
+                    }
+                  >
+                    <EllipsisOutlined />
+                  </Dropdown>,
+                ]}
+              >
+                <Card.Meta
+                  avatar={
+                    <Avatar >{item.name.substring(0, 1)}</Avatar>
+                  }
+                  title={<a>{item.name}</a>}
+                  description={item.appId}
+                />
+                <div className={styles.cardInfo}>
+                  <div>
+                    <p>活跃用户</p>
+                    <p>0</p>
+                  </div>
+                  <div>
+                    <p>新增用户</p>
+                    <p>0</p>
+                  </div>
+                </div>
+              </Card>
+            </List.Item>
+          );
+        }}
+        headerTitle={
+          <QueryParamBar
+            params={[
+              {
+                key: 'name',
+                title: '应用名称',
+                type: 'Input',
+              },
+              {
+                key: 'appId',
+                title: '应用Id',
+                type: 'Input',
+              },
+            ]}
+            onChange={(conditions) => {
+              setSearchParams(conditions);
+              actionRef.current?.reload();
+            }}
+          />
+        }
+        itemLayout="vertical"
+        actionRef={actionRef}
+        rowKey="code"
+        pagination={{
+          defaultPageSize: 8,
+          showSizeChanger: false,
+        }}
+        grid={{ gutter: 8, column: 4 }}
+        showActions="hover"
+        locale={{
+          emptyText: '没有任何应用',
         }}
         request={async (params = {}) => {
           let list: MiniProgram[] = [];
@@ -169,19 +178,67 @@ const Index: React.FC = () => {
             total,
           };
         }}
-        columns={columns}
-        search={false}
       />
-      { drawVisible && 
-        <EditForm
-          onSubmit={handleOper}
-          onCancel={doClose}
-          modalVisible={drawVisible}
-          values={formValues}
-          columns={columns}
-        />
-      }
-    </>
+      <DrawerForm<MiniProgram>
+              onVisibleChange={setDrawVisible}
+              title="新建应用"
+              visible={drawVisible}
+              onFinish={async (fields) => {
+                let success = false;
+                await post({
+                  ...fields,
+                }).then((res) => {
+                  if (res && res.status) {
+                    success = res.data;
+                    if (success) {
+                      actionRef.current?.reload();
+                      setDrawVisible(false);
+                    }
+                  } else {
+                    notification.error({
+                      message: '错误提示',
+                      description: res.message,
+                    });
+                  }
+                });
+                return success;
+              }}
+            >
+              <ProFormText width="md" name="name" label="应用名称" required />
+              <ProForm.Group title="应用信息">
+                <ProFormText
+                  width="md"
+                  name="appId"
+                  label="应用Id"
+                  placeholder="请输入微信公众平台中的AppID"
+                  required
+                />
+
+                <ProFormText.Password
+                  width="md"
+                  name="appSecret"
+                  label="应用密钥"
+                  placeholder="请输入微信公众平台中的AppSecret"
+                  required
+                />
+              </ProForm.Group>
+              <ProForm.Group title="支付相关">
+                <ProFormText
+                  width="md"
+                  name="conpayIdtract"
+                  label="商户号"
+                  placeholder="请输入名称"
+                />
+                <ProFormText.Password
+                  width="md"
+                  name="paySecret"
+                  label="商户密钥"
+                  placeholder="请输入名称"
+                />
+              </ProForm.Group>
+              <ProFormSwitch name="miniprogram" label="小程序" fieldProps={{ checked: true }} />
+            </DrawerForm>
+    </div>
   );
 };
 
