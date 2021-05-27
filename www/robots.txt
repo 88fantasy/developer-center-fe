@@ -1,0 +1,137 @@
+User-agent: Baiduspider
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: Googlebot
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: MSNBot
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: Baiduspider-image
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: YoudaoBot
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: Sogou web spider
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: Sogou inst spider
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: Sogou spider2
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: Sogou blog
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: Sogou News Spider
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: Sogou Orion spider
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: ChinasoSpider
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: Sosospider
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: yisouspider
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: EasouSpider
+Disallow: /data
+Disallow: /usr/
+Disallow: /.jpg$
+Disallow: /.pdf$
+Disallow: /.docx$
+Disallow: /.doc$
+Disallow: /.xlsx$
+
+User-agent: *
+Disallow: /
