@@ -36,9 +36,7 @@ export default defineConfig({
   proxy: proxy[REACT_APP_ENV || 'dev'],
   manifest: {
     basePath: '/',
-    publicPath: '/developer-fe/',
   },
-  publicPath: '/developer-fe/',
   define:{
     // "process.env.baseUrl":'http://127.0.0.1',
   },
