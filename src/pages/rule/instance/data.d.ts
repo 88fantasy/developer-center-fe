@@ -1,4 +1,4 @@
-import type { RulePackage, Rule, } from '../data';
+import type { RulePackage, Rule, } from '../data.d';
 
 export type Instance = {
   id: string;

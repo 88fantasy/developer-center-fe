@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import type { RulePackageInstance } from '../data';
+import type { RulePackageInstance } from '../data.d';
 import { get } from './service';
 import type { Dispatch } from 'umi';
 import { connect } from 'umi';
